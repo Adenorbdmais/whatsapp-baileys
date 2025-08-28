@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: wa_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: whatsapp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/Adenorbdmais/wa-backend:latest
+    container_name: wa_backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/whatsapp
+      - JWT_SECRET=troque_para_um_valor_secreto
+      - PORT=4000
+      - NODE_ENV=production
+    volumes:
+      - backend-auth:/usr/src/app/auth
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+
+  frontend:
+    image: ghcr.io/Adenorbdmais/wa-frontend:latest
+    container_name: wa_frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://SEU_IP:4000
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  db-data:
+  backend-auth:
