@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: ghcr.io/Adenorbdmais/wa-backend:latest
+    image: ghcr.io/adenorbdmais/wa-backend:latest
     container_name: wa_backend
     restart: unless-stopped
     environment:
@@ -28,7 +28,7 @@ services:
       - "4000:4000"
 
   frontend:
-    image: ghcr.io/Adenorbdmais/wa-frontend:latest
+    image: ghcr.io/adenorbdmais/wa-frontend:latest
     container_name: wa_frontend
     restart: unless-stopped
     environment:
